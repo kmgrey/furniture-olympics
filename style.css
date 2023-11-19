@@ -25,20 +25,18 @@
     font-size: 32px;
 }
 
-.start-screen {
+#start-screen,
+#replay-screen {
     display: flex;
     justify-content: center;
     margin-top: 75px;
     font-size: 36px;
 }
-.start-screen:hover {
+#start-screen:hover,
+#replay-screen:hover {
     cursor: pointer;
     font-size: 42px;
 }
-
-.hide {
-    display: none;
-  }
 
 #ground {
     height: 100px;
@@ -53,15 +51,13 @@
     width: 100px;
     height: 100px;
     position: absolute;
+    z-index: 1;
 }
 
-#obstacle {
+.obstacle {
     width: 165px;
     height: 105px;
     position: absolute;
-    bottom: 98px;
-    right: 10px;
-    /* border: 1px solid black; */
     display: flex;
     justify-content: center;
     align-items: flex-end;
