@@ -21,6 +21,7 @@ function startGame() {
      character.style.left = characterLeft + "px"
      characterImage.src = "./images/cat-stationary.png"
      document.querySelector("#replay-screen").style.display="none"
+     document.querySelector("#instructions").style.display="none"
 }
 startGame()
 
@@ -31,6 +32,7 @@ function playGame() {
     isRunning = true
     characterImage.src = "./images/cat-running.gif"
     document.addEventListener("keydown", control)
+    document.querySelector("#instructions").style.display="flex"
     document.querySelector("#start-screen").style.display="none"
     generateObstacle()
 }
@@ -44,6 +46,7 @@ function gameLose() {
     mainAudio.currentTime = 0;
     fart.play()
     document.querySelector("#replay-screen").style.display="flex"
+    document.querySelector("#instructions").style.display="none"
 }
 
 function replay() {
@@ -103,8 +106,8 @@ function generateObstacle(){
         let timerId = setInterval(moveObstacle, 1)
         setTimeout(generateObstacle, randomInterval)
         function moveObstacle() {
-            obstacleLeft -= 5
-            obstacle.style.left = obstacleLeft + "px";
+                obstacleLeft -= 5
+                obstacle.style.left = obstacleLeft + "px"
             if (obstacleLeft === -170){
                 clearInterval(timerId)
                 gameContainer.removeChild(obstacle)

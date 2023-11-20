@@ -27,6 +27,7 @@
 }
 
 #start-screen,
+#instructions,
 #replay-screen {
     display: flex;
     justify-content: center;
