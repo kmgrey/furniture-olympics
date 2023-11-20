@@ -16,6 +16,7 @@
     border: 5px solid black;
     margin: 50px auto;
     background-color: lightpink;
+    overflow: hidden;
 }
 
 .score {

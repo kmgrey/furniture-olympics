@@ -17,11 +17,10 @@ let isRunning = false
 let isGameOver = false
 
 function startGame() {
-    character.style.bottom = characterBottom + "px"
-    character.style.left = characterLeft + "px"
-    characterImage.src = "./images/cat-stationary.png"
-    document.querySelector("#replay-screen").style.display="none"
-    isGameOver = false
+     character.style.bottom = characterBottom + "px"
+     character.style.left = characterLeft + "px"
+     characterImage.src = "./images/cat-stationary.png"
+     document.querySelector("#replay-screen").style.display="none"
 }
 startGame()
 
@@ -31,7 +30,7 @@ function playGame() {
     clickSound.play()
     isRunning = true
     characterImage.src = "./images/cat-running.gif"
-    document.addEventListener("keydown", jumpUp)
+    document.addEventListener("keydown", control)
     document.querySelector("#start-screen").style.display="none"
     generateObstacle()
 }
@@ -39,14 +38,26 @@ function playGame() {
 function gameLose() {
     isGameOver = true
     characterImage.src = "./images/cat-collision.png"
-    document.removeEventListener("keydown", jumpUp)
+    document.removeEventListener("keydown", control)
     console.log('Game lost')
     mainAudio.pause()
+    mainAudio.currentTime = 0;
     fart.play()
     document.querySelector("#replay-screen").style.display="flex"
 }
 
+function replay() {
+    isGameOver = false
+    startGame()
+    playGame()
+}
+
 /*JUMP MECHANICS*/
+function control(e) {
+    if (e.keyCode === 32) {
+        jumpUp()
+    }
+}
 function jumpUp() {
     if (!isJumping) {
         isJumping = true
@@ -82,13 +93,32 @@ function generateObstacle(){
     let obstacleLeft = 800
     let obstacleBottom = 98
     let randomInterval = Math.floor(Math.random() * 3000 + 1000)
-
     const obstacle = document.createElement("div")
     obstacle.classList.add("obstacle")
     gameContainer.appendChild(obstacle)
     obstacle.style.left = obstacleLeft + "px"
     obstacle.style.bottom = obstacleBottom + "px"
-
+    /*OBSTACLE MOVEMENT AND COLLISION*/
+    if (!isGameOver){
+        let timerId = setInterval(moveObstacle, 1)
+        setTimeout(generateObstacle, randomInterval)
+        function moveObstacle() {
+            obstacleLeft -= 5
+            obstacle.style.left = obstacleLeft + "px";
+            if (obstacleLeft === -170){
+                clearInterval(timerId)
+                gameContainer.removeChild(obstacle)
+            }
+            if (obstacleLeft <= 125 && obstacleLeft > 0 && characterBottom < 105 ){
+                gameLose()
+                clearInterval(timerId)
+                isGameOver = true
+                gameContainer.removeChild(obstacle)
+                obstacle.classList.remove("obstacle")
+            }
+       }
+    }
+    /*OBSTACLE RANDOM IMAGE ASSIGNMENT*/
     const furniture = document.createElement("img")
     obstacle.appendChild(furniture)
     let randomChoice = Math.floor(Math.random() * 3)
@@ -103,23 +133,5 @@ function generateObstacle(){
         case 2:
             furniture.src = "./images/large-table.png";
             break;
-    }
-    if (!isGameOver){
-        function moveObstacle() {
-            obstacleLeft -= 5
-            obstacle.style.left = obstacleLeft + "px";
-            if (obstacleLeft === -170){
-                clearInterval(timerId)
-                gameContainer.removeChild(obstacle)
-            }
-            if (obstacleLeft <= 125 && obstacleLeft > 0 && characterBottom < 105 ){
-                gameLose()
-                clearInterval(timerId)
-            }
-        }
-        let timerId = setInterval(moveObstacle, 1)
-        setTimeout(generateObstacle, randomInterval)
-    } else {
-        gameContainer.removeChild(obstacle)
     }
 } 
