@@ -19,7 +19,7 @@ let isGameOver = false
 function startGame() {
     character.style.bottom = characterBottom + "px"
     character.style.left = characterLeft + "px"
-    characterImage.src = "./images/cat-stationary.png"
+    characterImage.src = "./furniture-olympics/images/cat-stationary.png"
     document.querySelector("#replay-screen").style.display="none"
     isGameOver = false
 }
