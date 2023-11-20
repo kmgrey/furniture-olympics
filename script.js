@@ -4,8 +4,8 @@ const character = document.querySelector("#character")
 const characterImage = document.querySelector("#cat")
 
 /*AUDIO VARIABLES*/
-const bounceSound = new Audio(".\furniture-olympics\audio\squeak.mp3")
-const mainAudio = new Audio("./furniture-olympics/audio/main-theme.mp3")
+const bounceSound = new Audio("./audio/squeak.mp3")
+const mainAudio = new Audio("./audio/main-theme.mp3")
 const clickSound = new Audio("./audio/mouse-click.mp3")
 const wowSound = new Audio("./audio/anime-wow.mp3")
 const fart = new Audio("./audio/fart.mp3")
@@ -19,7 +19,7 @@ let isGameOver = false
 function startGame() {
     character.style.bottom = characterBottom + "px"
     character.style.left = characterLeft + "px"
-    characterImage.src = "./furniture-olympics/images/cat-stationary.png"
+    characterImage.src = "./images/cat-stationary.png"
     document.querySelector("#replay-screen").style.display="none"
     isGameOver = false
 }
