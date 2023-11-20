@@ -4,11 +4,11 @@ const character = document.querySelector("#character")
 const characterImage = document.querySelector("#cat")
 
 /*AUDIO VARIABLES*/
-const bounceSound = new Audio("/audio/squeak.mp3")
-const mainAudio = new Audio("/audio/main-theme.mp3")
-const clickSound = new Audio("/audio/mouse-click.mp3")
-const wowSound = new Audio("/audio/anime-wow.mp3")
-const fart = new Audio("/audio/fart.mp3")
+const bounceSound = new Audio("./audio/squeak.mp3")
+const mainAudio = new Audio("./audio/main-theme.mp3")
+const clickSound = new Audio("./audio/mouse-click.mp3")
+const wowSound = new Audio("./audio/anime-wow.mp3")
+const fart = new Audio("./audio/fart.mp3")
 
 let characterBottom = 100
 let characterLeft = 25
@@ -19,8 +19,9 @@ let isGameOver = false
 function startGame() {
     character.style.bottom = characterBottom + "px"
     character.style.left = characterLeft + "px"
-    characterImage.src = "/images/cat-stationary.png"
+    characterImage.src = "./images/cat-stationary.png"
     document.querySelector("#replay-screen").style.display="none"
+    isGameOver = false
 }
 startGame()
 
@@ -29,26 +30,20 @@ function playGame() {
     mainAudio.play()
     clickSound.play()
     isRunning = true
-    characterImage.src = "/images/cat-running.gif"
+    characterImage.src = "./images/cat-running.gif"
     document.addEventListener("keydown", jumpUp)
     document.querySelector("#start-screen").style.display="none"
+    generateObstacle()
 }
 
 function gameLose() {
     isGameOver = true
-    characterImage.src = "/images/cat-collision.png"
+    characterImage.src = "./images/cat-collision.png"
     document.removeEventListener("keydown", jumpUp)
     console.log('Game lost')
     mainAudio.pause()
     fart.play()
     document.querySelector("#replay-screen").style.display="flex"
-}
-
-function replay() {
-    isGameOver = false
-    loseAudio.pause()
-    mainAudio.play()
-    startGame()
 }
 
 /*JUMP MECHANICS*/
@@ -64,7 +59,7 @@ function jumpUp() {
                 character.style.bottom = characterBottom + "px"
             }
         }, 20)
-    } characterImage.src = "/images/cat-jump.png"
+    } characterImage.src = "./images/cat-jump.png"
       bounceSound.play()
 }
 function jumpDown() {
@@ -74,7 +69,7 @@ function jumpDown() {
             isJumping = false
             characterBottom = 100
             character.style.bottom = characterBottom + "px"
-            characterImage.src = "/images/cat-running.gif"
+            characterImage.src = "./images/cat-running.gif"
         } else {
             characterBottom -= 9 //FALL SPEED
             character.style.bottom = characterBottom + "px"
@@ -100,35 +95,31 @@ function generateObstacle(){
     console.log(randomChoice)
     switch(randomChoice){
         case 0:
-            furniture.src = "/images/dresser.png";
+            furniture.src = "./images/dresser.png";
             break;
         case 1:
-            furniture.src = "/images/sofa.png";
+            furniture.src = "./images/sofa.png";
             break;
         case 2:
-            furniture.src = "/images/large-table.png";
+            furniture.src = "./images/large-table.png";
             break;
     }
-
-    function moveObstacle() {
-        obstacleLeft -= 5
-        obstacle.style.left = obstacleLeft + "px";
-        if (obstacleLeft === -170){
-            clearInterval(timerId)
-            gameContainer.removeChild(obstacle)
+    if (!isGameOver){
+        function moveObstacle() {
+            obstacleLeft -= 5
+            obstacle.style.left = obstacleLeft + "px";
+            if (obstacleLeft === -170){
+                clearInterval(timerId)
+                gameContainer.removeChild(obstacle)
+            }
+            if (obstacleLeft <= 125 && obstacleLeft > 0 && characterBottom < 105 ){
+                gameLose()
+                clearInterval(timerId)
+            }
         }
-        if (obstacleLeft < 125 && obstacleLeft > 0 && characterBottom < 105 ){
-            gameLose()
-            clearInterval(timerId)
-            gameContainer.removeChild(obstacle)
-        }
-    }
-    let timerId = setInterval(moveObstacle, 1)
-    if (!isGameOver) {
+        let timerId = setInterval(moveObstacle, 1)
         setTimeout(generateObstacle, randomInterval)
+    } else {
+        gameContainer.removeChild(obstacle)
     }
 } 
-
-function score() {
-    
-}
