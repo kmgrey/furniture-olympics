@@ -2,6 +2,7 @@
 const gameContainer = document.querySelector("#game-container")
 const character = document.querySelector("#character")
 const characterImage = document.querySelector("#cat")
+const scoreNum = document.querySelector("#score")
 
 /*AUDIO VARIABLES*/
 const bounceSound = new Audio("./audio/squeak.mp3")
@@ -69,7 +70,7 @@ function jumpUp() {
                 clearInterval(jumpInterval)
                 jumpDown()
             } else {
-                characterBottom += 14 // JUMP HEIGHT
+                characterBottom += 12
                 character.style.bottom = characterBottom + "px"
             }
         }, 20)
@@ -85,7 +86,7 @@ function jumpDown() {
             character.style.bottom = characterBottom + "px"
             characterImage.src = "./images/cat-running.gif"
         } else {
-            characterBottom -= 9 //FALL SPEED
+            characterBottom -= 7
             character.style.bottom = characterBottom + "px"
         }
     }, 20)
@@ -106,7 +107,7 @@ function generateObstacle(){
         let timerId = setInterval(moveObstacle, 1)
         setTimeout(generateObstacle, randomInterval)
         function moveObstacle() {
-                obstacleLeft -= 5
+                obstacleLeft -= 3
                 obstacle.style.left = obstacleLeft + "px"
             if (obstacleLeft === -170){
                 clearInterval(timerId)

@@ -15,11 +15,11 @@
     height: 400px;
     border: 5px solid black;
     margin: 50px auto;
-    background-color: lightpink;
+    background-color: rgb(249, 201, 159);
     overflow: hidden;
 }
 
-.score {
+#score {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -43,7 +43,7 @@
 #ground {
     height: 100px;
     width: 100%;
-    background-color: lightblue;
+    background-color: lightseagreen;
     border-top: 4px solid black;
     position: absolute;
     bottom: 0;
